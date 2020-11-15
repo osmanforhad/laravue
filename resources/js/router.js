@@ -18,6 +18,14 @@ const routes = [{
         path: '/admin',
         component: AdminComponent,
         name: 'Admin',
+        beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('token')) {
+                next();
+            } else {
+                next('/login');
+            }
+
+        }
     },
 ]
 

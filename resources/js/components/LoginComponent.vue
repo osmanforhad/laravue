@@ -13,14 +13,14 @@
 
 <v-card-text>
     <v-form>
-        <v-text-field label="Login" name="login" prepend-icon="person" type="text"/>
-        <v-text-field id="password" label="Password" name="password" prepend-icon="mdi-lock" type="password"/>
+        <v-text-field label="Login" v-model="email" name="login" prepend-icon="person" type="email"/>
+        <v-text-field id="password" label="Password" v-model="password" name="password" prepend-icon="mdi-lock" type="password"/>
     </v-form>
 </v-card-text>
 
 <v-card-actions>
     <v-spacer/>
-    <v-btn color="error">Login</v-btn>
+    <v-btn color="error" @click="login">Login</v-btn>
 </v-card-actions>
 </v-card>
 </v-col>
@@ -32,7 +32,17 @@
 
 <script>
 export default {
-    
+    data(){
+        return{
+            email: '',
+            password: ''
+        }
+    },
+    methods:{
+        login: function(){
+            localStorage.setItem('token', '48848484')
+        }
+    }
 }
 </script>
 
