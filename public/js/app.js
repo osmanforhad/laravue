@@ -2085,16 +2085,82 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      email: '',
-      password: ''
+      email: "",
+      password: "",
+      loading: false,
+      snackbar: false,
+      text: ""
     };
   },
   methods: {
     login: function login() {
-      localStorage.setItem('token', '48848484');
+      var _this = this;
+
+      // Add a request interceptor
+      axios.interceptors.request.use(function (config) {
+        _this.loading = true;
+        return config;
+      }, function (error) {
+        // Do something with request error
+        _this.loading = false;
+        return Promise.reject(error);
+      }); // Add a response interceptor
+
+      axios.interceptors.response.use(function (response) {
+        _this.loading = false;
+        return response;
+      }, function (error) {
+        // Any status codes that falls outside the range of 2xx cause this function to trigger
+        // Do something with response error
+        _this.loading = false;
+        return Promise.reject(error);
+      });
+      axios.post("/api/login", {
+        email: this.email,
+        password: this.password
+      }).then(function (res) {
+        localStorage.setItem("token", res.data.token);
+      })["catch"](function (err) {
+        _this.text = err.response.data.status;
+        _this.snackbar = true;
+      });
     }
   }
 });
@@ -20001,7 +20067,7 @@ var render = function() {
     { attrs: { id: "inspire" } },
     [
       _c(
-        "v-content",
+        "v-main",
         [
           _c(
             "v-container",
@@ -20023,7 +20089,7 @@ var render = function() {
                             "v-toolbar",
                             { attrs: { color: "error", dark: "", flat: "" } },
                             [
-                              _c("v-tollbar-title", [_vm._v("Login form")]),
+                              _c("v-toolbar-title", [_vm._v("Login")]),
                               _vm._v(" "),
                               _c("v-spacer")
                             ],
@@ -20033,6 +20099,16 @@ var render = function() {
                           _c(
                             "v-card-text",
                             [
+                              _c("v-progress-linear", {
+                                attrs: {
+                                  active: _vm.loading,
+                                  indeterminate: _vm.loading,
+                                  absolute: "",
+                                  bottom: "",
+                                  color: "deep-purple accent-4"
+                                }
+                              }),
+                              _vm._v(" "),
                               _c(
                                 "v-form",
                                 [
@@ -20093,6 +20169,57 @@ var render = function() {
                           )
                         ],
                         1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-snackbar",
+                        {
+                          scopedSlots: _vm._u([
+                            {
+                              key: "action",
+                              fn: function(ref) {
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._b(
+                                      {
+                                        attrs: { color: "pink", text: "" },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.snackbar = false
+                                          }
+                                        }
+                                      },
+                                      "v-btn",
+                                      attrs,
+                                      false
+                                    ),
+                                    [
+                                      _vm._v(
+                                        "\n                Close\n              "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          ]),
+                          model: {
+                            value: _vm.snackbar,
+                            callback: function($$v) {
+                              _vm.snackbar = $$v
+                            },
+                            expression: "snackbar"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(_vm.text) +
+                              "\n\n            "
+                          )
+                        ]
                       )
                     ],
                     1

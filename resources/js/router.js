@@ -12,7 +12,7 @@ const routes = [{
     {
         path: '/login',
         component: LoginComponent,
-        name: 'Login',
+        name: 'Login'
     },
     {
         path: '/admin',
