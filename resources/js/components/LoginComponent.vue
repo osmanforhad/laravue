@@ -20,14 +20,14 @@
                 ></v-progress-linear>
 
                 <v-form>
-                  <v-text-field
+                  <v-text-field color="error"
                     label="Login"
                     v-model="email"
                     name="login"
                     prepend-icon="person"
                     type="email"
                   />
-                  <v-text-field
+                  <v-text-field color="error"
                     id="password"
                     label="Password"
                     v-model="password"
@@ -107,6 +107,7 @@ export default {
         .post("/api/login", { email: this.email, password: this.password })
         .then((res) => {
           localStorage.setItem("token", res.data.token);
+          this.$router.push('/admin').then(res =>  console.log('LoggedIn Successfuly')).catch(err => console.log(err))
         })
         .catch((err) => {
           this.text = err.response.data.status;
