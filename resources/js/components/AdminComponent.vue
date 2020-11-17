@@ -51,7 +51,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-icon class="mx-4">fab fa-youtube</v-icon>
       <v-toolbar-title class="mr-12 align-cneter">
-        <span class="title">Youtube</span>
+        <span class="title">Laravel Vue Admin Panel</span>
       </v-toolbar-title>
       <v-spacer />
       <v-row align="center" style="max-width: 650px">
@@ -67,9 +67,11 @@
     </v-app-bar>
 
     <v-main>
-      <v-container class="fill-height">
+      <v-container class="">
+          <router-view></router-view>
         <v-row justify="center" align="center">
           <v-col>
+              
             <v-snackbar v-model="snackbar">
               You Are Loggedin Successfully!
 
@@ -100,11 +102,11 @@ export default {
     drawer: null,
     snackbar: false,
     items: [
-      { icon: "trending_up", text: "Most Popular" },
-      { icon: "subscriptions", text: "Subscriptions" },
-      { icon: "history", text: "History" },
-      { icon: "featured_play_list", text: "Playlists" },
-      { icon: "watch_later", text: "Watch Later" },
+      { icon: "mdi-account", text: "Users" },
+      { icon: "mdi-tooltip-text", text: "Posts" },
+      { icon: "mdi-google-pages", text: "Pages" },
+      { icon: "mdi-buffer", text: "Categories" },
+      { icon: "mdi-access-point-network", text: "Role" },
     ],
     items2: [
       { picture: 28, text: "Joesph" },
