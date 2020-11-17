@@ -66,12 +66,12 @@
       </v-row>
     </v-app-bar>
 
-    <v-content>
+    <v-main>
       <v-container class="fill-height">
         <v-row justify="center" align="center">
           <v-col>
             <v-snackbar v-model="snackbar">
-              You Are Loggedin Successfully! 
+              You Are Loggedin Successfully!
 
               <template v-slot:action="{ attrs }">
                 <v-btn
@@ -87,7 +87,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -95,10 +95,10 @@
 export default {
   props: {
     source: String,
-    snackbar: false
   },
   data: () => ({
     drawer: null,
+    snackbar: false,
     items: [
       { icon: "trending_up", text: "Most Popular" },
       { icon: "subscriptions", text: "Subscriptions" },
@@ -116,14 +116,23 @@ export default {
   }),
   created() {
     this.$vuetify.theme.dark = true;
-    this.snackbar = true
   },
-  methods:{
-      logout: function(){
-          localStorage.removeItem('token');
-          this.$router.push('/login').then(res =>  this.text = "You are Logged Out Successfully", this.snackbar = true,).catch(err => console.log(err))
-      }
-  }
+  mounted(){
+this.snackbar = localStorage.getItem('loggedIn') ? true : false;
+localStorage.removeItem('loggedIn');
+  },
+  methods: {
+    logout: function () {
+      localStorage.removeItem("token");
+      this.$router
+        .push("/login")
+        .then(
+          (res) => (this.text = "You are Logged Out Successfully"),
+          (this.snackbar = true)
+        )
+        .catch((err) => console.log(err));
+    },
+  },
 };
 </script>
 

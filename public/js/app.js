@@ -2003,12 +2003,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    source: String,
-    snackbar: false
+    source: String
   },
   data: function data() {
     return {
       drawer: null,
+      snackbar: false,
       items: [{
         icon: "trending_up",
         text: "Most Popular"
@@ -2045,14 +2045,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.$vuetify.theme.dark = true;
-    this.snackbar = true;
+  },
+  mounted: function mounted() {
+    this.snackbar = localStorage.getItem('loggedIn') ? true : false;
+    localStorage.removeItem('loggedIn');
   },
   methods: {
     logout: function logout() {
       var _this = this;
 
-      localStorage.removeItem('token');
-      this.$router.push('/login').then(function (res) {
+      localStorage.removeItem("token");
+      this.$router.push("/login").then(function (res) {
         return _this.text = "You are Logged Out Successfully";
       }, this.snackbar = true)["catch"](function (err) {
         return console.log(err);
@@ -2159,11 +2162,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      valid: true,
       email: "",
+      emailRules: [function (v) {
+        return !!v || 'E-mail is required';
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || 'E-mail must be valid';
+      }],
       password: "",
+      passwordRules: [function (v) {
+        return !!v || "Password is required";
+      }],
       loading: false,
       snackbar: false,
       text: ""
@@ -2197,9 +2217,10 @@ __webpack_require__.r(__webpack_exports__);
         password: this.password
       }).then(function (res) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("loggedIn", true);
 
-        _this.$router.push('/admin').then(function (res) {
-          return console.log('LoggedIn Successfuly');
+        _this.$router.push("/admin").then(function (res) {
+          return console.log("LoggedIn Successfuly");
         })["catch"](function (err) {
           return console.log(err);
         });
@@ -20044,7 +20065,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-content",
+        "v-main",
         [
           _c(
             "v-container",
@@ -20101,7 +20122,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n            You Are Loggedin Successfully! \n\n            "
+                            "\n            You Are Loggedin Successfully!\n\n            "
                           )
                         ]
                       )
@@ -20216,14 +20237,26 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-form",
+                                {
+                                  ref: "form",
+                                  model: {
+                                    value: _vm.valid,
+                                    callback: function($$v) {
+                                      _vm.valid = $$v
+                                    },
+                                    expression: "valid"
+                                  }
+                                },
                                 [
                                   _c("v-text-field", {
                                     attrs: {
                                       color: "error",
                                       label: "Login",
+                                      rules: _vm.emailRules,
                                       name: "login",
                                       "prepend-icon": "person",
-                                      type: "email"
+                                      type: "email",
+                                      required: ""
                                     },
                                     model: {
                                       value: _vm.email,
@@ -20241,7 +20274,9 @@ var render = function() {
                                       label: "Password",
                                       name: "password",
                                       "prepend-icon": "mdi-lock",
-                                      type: "password"
+                                      type: "password",
+                                      counter: 8,
+                                      required: ""
                                     },
                                     model: {
                                       value: _vm.password,
@@ -20266,7 +20301,10 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { color: "error" },
+                                  attrs: {
+                                    color: "error",
+                                    disabled: !_vm.valid
+                                  },
                                   on: { click: _vm.login }
                                 },
                                 [_vm._v("Login")]
