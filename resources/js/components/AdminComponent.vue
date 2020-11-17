@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
-        <v-list-item v-for="item in items" :key="item.text" link>
+        <v-list-item v-for="item in items" :key="item.text" link :to="item.action">
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -49,10 +49,12 @@
 
     <v-app-bar app clipped-left color="red" dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-icon class="mx-4">fab fa-youtube</v-icon>
-      <v-toolbar-title class="mr-12 align-cneter">
+      <v-btn text to="/admin" left>
+      <v-icon class="mx-4">mdi-laravel</v-icon>
+      <v-toolbar-title class="mr-12 align-center">
         <span class="title">Laravel Vue Admin Panel</span>
       </v-toolbar-title>
+      </v-btn>
       <v-spacer />
       <v-row align="center" style="max-width: 650px">
         <v-text-field
@@ -68,10 +70,9 @@
 
     <v-main>
       <v-container class="">
-          <router-view></router-view>
+        <router-view></router-view>
         <v-row justify="center" align="center">
           <v-col>
-              
             <v-snackbar v-model="snackbar">
               You Are Loggedin Successfully!
 
@@ -102,11 +103,11 @@ export default {
     drawer: null,
     snackbar: false,
     items: [
-      { icon: "mdi-account", text: "Users" },
-      { icon: "mdi-tooltip-text", text: "Posts" },
-      { icon: "mdi-google-pages", text: "Pages" },
-      { icon: "mdi-buffer", text: "Categories" },
-      { icon: "mdi-access-point-network", text: "Role" },
+      { icon: "mdi-account", text: "Users", action: "#" },
+      { icon: "mdi-tooltip-text", text: "Posts", action: "#" },
+      { icon: "mdi-google-pages", text: "Pages", action: "#" },
+      { icon: "mdi-buffer", text: "Categories", action: "#" },
+      { icon: "mdi-access-point-network", text: "Roles", action: "/admin/roles" },
     ],
     items2: [
       { picture: 28, text: "Joesph" },
@@ -119,9 +120,9 @@ export default {
   created() {
     this.$vuetify.theme.dark = true;
   },
-  mounted(){
-this.snackbar = localStorage.getItem('loggedIn') ? true : false;
-localStorage.removeItem('loggedIn');
+  mounted() {
+    this.snackbar = localStorage.getItem("loggedIn") ? true : false;
+    localStorage.removeItem("loggedIn");
   },
   methods: {
     logout: function () {
