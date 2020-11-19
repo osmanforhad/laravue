@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    use HasFactory;
-}
+    protected $guarded = [];
+    //use HasFactory;
+}//end of the Role model class
