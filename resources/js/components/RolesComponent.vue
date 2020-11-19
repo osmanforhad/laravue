@@ -165,7 +165,7 @@
           text: '#',
           align: 'start',
           sortable: false,
-          value: 'name',
+          value: 'id',
         },
         { text: 'Name', value: 'name' },
         { text: 'Created At', value: 'created_at' },
@@ -236,6 +236,11 @@
         }
       );
         axios.get('/api/roles',{}).then(res => this.roles = res.data.roles)
+        .catch(err => {
+          if(err.response.status == 401)
+localStorage.removeItem('token');
+this.$router.push('/login');
+          })
       },
 
       editItem (item) {
