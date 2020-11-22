@@ -80388,14 +80388,14 @@ var routes = [{
     path: 'roles',
     component: _components_RolesComponent__WEBPACK_IMPORTED_MODULE_4__["default"],
     name: 'Roles'
-  }] // beforeEnter: (to, from, next) => {
-  //     if (localStorage.getItem('token')) {
-  //         next();
-  //     } else {
-  //         next('/login');
-  //     }
-  // }
-
+  }],
+  beforeEnter: function beforeEnter(to, from, next) {
+    axios.get('api/verify').then(function (res) {
+      return next();
+    })["catch"](function (err) {
+      return next('/login');
+    });
+  }
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes

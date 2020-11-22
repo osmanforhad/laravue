@@ -19,11 +19,16 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $token = Str::random(80);
             Auth::user()->api_token = $token;
-            
+
             Auth::user()->save();
             return response()->json(['token' => $token], 200);
         }
         return response()->json(['status' => 'Email or Password is Wrong'], 403);
     } //end of the login method
+
+    public function verify(Request $request)
+    {
+        return $request->user()->only('name', 'email');
+    } //end of the verify method
 
 }//end of the UserController class
